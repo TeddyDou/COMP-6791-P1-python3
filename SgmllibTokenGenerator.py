@@ -58,7 +58,7 @@ class SgmParser(sgmllib.SGMLParser):
         """"Print out data in TEXT portions of the document."""
 
         # Ignaore the characters in data that ascii can not decode
-        # data = str(data, errors='ignore')
+        # data = unicode(data, errors='replace')
 
         if self.in_body:
             self.body += data
@@ -98,10 +98,12 @@ class SgmParser(sgmllib.SGMLParser):
         if not os.path.isdir(newdir):
             os.mkdir(newdir)
         fname = newdir + "/" + str(self.doc_id) + ".txt"
+        # change
         doc_file = open(fname, "wb")
         pickle.dump(tokens, doc_file)
         doc_file.close()
-        print(("File number " + self.doc_id + " is processed"))
+        # change
+        # print "File number " + self.doc_id + " is processed"
 
         # Reset variables
         self.in_title = 0
@@ -157,15 +159,17 @@ class SgmParser(sgmllib.SGMLParser):
 def begin_parse():
 
     # modify the directory of your reuter-21578 files
-    rootdir = 'G:/informationretrieval/reuters21578'
+    rootdir = 'D:/concordia study/Term 6 COMP 6791 Information Retrival/Lab/reuters/'
+    docname = 'D:/concordia study/Term 6 COMP 6791 Information Retrival/Lab/reuters/reut2-017.sgm'
 
     for doc in os.listdir(rootdir):
         if os.path.splitext(doc)[1] == '.sgm':
-            ft = open(os.path.join(rootdir, doc), "r")
-            s = ft.read()
+            ft = open(os.path.join(rootdir, doc), "rb")
+            s = ft.read().decode('utf-8', errors='ignore')
             parser = SgmParser()
             parser.parse(s)
             ft.close()
+            print("File number " + doc + " is processed")
 
 if __name__ == "__main__":
     begin_parse()

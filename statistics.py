@@ -23,7 +23,7 @@ stemming_spimi_dir = 'stemming inverted index'
 
 def calculate(tdir, sdir):
 
-    with open(sdir+'/FinalSpimi.txt', 'r') as f:
+    with open(sdir+'/FinalSpimi.txt', 'rb') as f:
         mylist = pickle.load(f)
         mydict = pickle.load(f)
         f.close
@@ -35,15 +35,15 @@ def calculate(tdir, sdir):
     pos = 0
     for doc in os.listdir(tdir):
         if os.path.splitext(doc)[1] == '.txt':
-            ft = open(os.path.join(tdir, doc), "r")
+            ft = open(os.path.join(tdir, doc), "rb")
             termlist = pickle.load(ft)
             ft.close()
             pos += len(termlist)
 
-    print(('For ' + sdir))
-    print(('The word type (terms) size is:    ' + str(len(mylist))))
-    print(('The non-positional index	size is: ' + str(non_pos)))
-    print(('The positional index	size is:     ' + str(pos)))
+    print ('For ' + sdir)
+    print ('The word type (terms) size is:    ' + str(len(mylist)))
+    print ('The non-positional index	size is: ' + str(non_pos))
+    print ('The positional index	size is:     ' + str(pos))
 
 
 if __name__ == '__main__':

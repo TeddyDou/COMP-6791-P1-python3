@@ -55,8 +55,8 @@ def spimi_invert():
         spimiFileNumber += 1
         spimi_file = open(targetdir + "/spimi" + str(spimiFileNumber) + ".txt", 'wb')
         write_to_disk(sorted_terms, dictionary, spimi_file)
-        print(('Created file: ' + str(spimi_file)))
-        print(('Files processed: ' + str(DocID-1)))
+        print ('Created file: ' + str(spimi_file))
+        print ('Files processed: ' + str(DocID-1))
         spimi_file.close()
 
 
@@ -70,13 +70,12 @@ def merge_spimi_file():
             for doc in os.listdir(rootdir):
                 if os.path.splitext(doc)[1] == '.txt':
                     with open(rootdir + '/' + doc, 'rb') as fp:
-                        print("bababababa")
                         terms.append(pickle.load(fp))
                         dictionaries.append(pickle.load(fp))
                     fp.close
 
             for index, term_list in enumerate(terms[1:]):
-                print(('finished processing file: ' + str(index + 1)))
+                print ('finished processing file: ' + str(index + 1))
                 for term in term_list:
                     if term in terms[0]:
                         postings1 = dictionaries[0][term]
@@ -92,7 +91,7 @@ def merge_spimi_file():
             write_to_disk(sorted_terms, dictionaries[0], fp)
             fp.close()
         else:
-            print(('Only 1 spimi file, no need to merge, please refer to:' + root + files))
+            print ('Only 1 spimi file, no need to merge, please refer to:' + root + files)
 
 
 def add_to_dictionary(dictionary, term):
