@@ -1,6 +1,7 @@
 """This file calculates the statistics of the corpus Reuter-21578"""
 import pickle
 import os
+import time
 
 unfiltered_terms_dir = 'unfiltered terms'
 unfiltered_spimi_dir = 'unfiltered inverted index'
@@ -35,8 +36,8 @@ def calculate(tdir, sdir):
     pos = 0
     for doc in os.listdir(tdir):
         if os.path.splitext(doc)[1] == '.txt':
-            ft = open(os.path.join(tdir, doc), "rb")
-            termlist = pickle.load(ft)
+            ft = open(os.path.join(tdir, doc), "r")
+            termlist = [x for x in ft.read().split(', ')]
             ft.close()
             pos += len(termlist)
 
@@ -47,12 +48,14 @@ def calculate(tdir, sdir):
 
 
 if __name__ == '__main__':
+    start = time.clock()
     # calculate(unfiltered_terms_dir, unfiltered_spimi_dir)
     # calculate(nonumber_terms_dir, nonumber_spimi_dir)
     # calculate(casef_terms_dir, casef_spimi_dir)
     # calculate(stopword30_terms_dir, stopword30_spimi_dir)
     # calculate(stopword150_term_dir, stopword150_spimi_dir)
     calculate(stemming_terms_dir, stemming_spimi_dir)
+    print('Executed: %d s.' % int(time.clock() - start))
 
 
 ##############################################
