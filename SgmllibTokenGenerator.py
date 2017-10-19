@@ -3,6 +3,7 @@
 import sgmllib
 import os
 import TokenNormalizer
+import time
 import pickle
 
 
@@ -92,15 +93,13 @@ class SgmParser(sgmllib.SGMLParser):
             article_string += self.text + "\n"
 
         terms = TokenNormalizer.generate_terms(article_string)
-        tokens = []
-        for term in terms:
-            tokens.append([term, self.doc_id])
         if not os.path.isdir(newdir):
             os.mkdir(newdir)
         fname = newdir + "/" + str(self.doc_id) + ".txt"
         # change
-        doc_file = open(fname, "wb")
-        pickle.dump(tokens, doc_file)
+        doc_file = open(fname, "w")
+        for token in terms:
+            doc_file.write(token + ', ')
         doc_file.close()
         # change
         # print "File number " + self.doc_id + " is processed"
@@ -172,7 +171,8 @@ def begin_parse():
             print("File number " + doc + " is processed")
 
 if __name__ == "__main__":
+    start = time.clock()
     begin_parse()
 
-
+    print('Executed: %d s.' % int(time.clock()-start))
 

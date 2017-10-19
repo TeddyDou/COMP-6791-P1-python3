@@ -3,6 +3,7 @@
 import sys
 import os
 import pickle
+import time
 
 memorySizeLimit = 0.5 * 1024 * 1024
 blockSizeLimit = 512
@@ -36,20 +37,20 @@ def spimi_invert():
                 DocID += 1
                 filename = termfiledir + '/' + str(DocID) + '.txt'
                 if os.path.isfile(filename):
-                    with open(filename, 'rb') as termfile:
+                    with open(filename, 'r') as termfile:
                         input_stream = read_from_dist(termfile)
+                    termfile.close()
                 else:
                     endInput = True
                     break
                 termfile.close()
             else:
-                token = input_stream.pop(0)
-                term, doc_id = token[0], int(token[1])
+                term = input_stream.pop(0)
                 if term not in dictionary:
                     postings_list = add_to_dictionary(dictionary, term)
                 else:
                     postings_list = get_postings_list(dictionary, term)
-                add_to_postings_list(postings_list, doc_id)
+                add_to_postings_list(postings_list, DocID)
         sorted_terms = sort_terms(dictionary)
         # sorted_terms = sorted(dictionary, key=lambda postings: postings[0])
         spimiFileNumber += 1
@@ -57,6 +58,7 @@ def spimi_invert():
         write_to_disk(sorted_terms, dictionary, spimi_file)
         print ('Created file: ' + str(spimi_file))
         print ('Files processed: ' + str(DocID-1))
+        spimi_file.close()
         spimi_file.close()
 
 
@@ -113,9 +115,10 @@ def write_to_disk(sorted_terms, dictionary, spimi_file):
     pickle.dump(dictionary, spimi_file)
 
 
-def read_from_dist(spimi_file):
-    spimi_obj = pickle.load(spimi_file)
-    return spimi_obj
+def read_from_dist(terms_file):
+    temp = terms_file.read()
+    termlist = [x for x in temp.split(', ')]
+    return termlist
 
 
 def sort_terms(dict):
@@ -145,4 +148,7 @@ def create_readable_spimi_dictionary():
 
 
 if __name__ == "__main__":
+    start = time.clock()
     begin_spimi()
+
+    print('Executed: %d s.' % int(time.clock()-start))

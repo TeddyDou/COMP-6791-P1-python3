@@ -2,6 +2,7 @@
 
 import pickle
 import TokenNormalizer
+import time
 
 #different lists of queries
 givenquaries = ["Jimmy Carter", "Green Party", "Innovations in telecommunication"]
@@ -82,6 +83,7 @@ def intersection(list1, list2):
 
 if __name__ == "__main__":
 
+    start = time.clock()
     for query in givenquaries:
         makequery(query, "and")
         makequery(query, "or")
@@ -97,3 +99,5 @@ if __name__ == "__main__":
     makequery(exchquaries2[0], "and")
     makequery(exchquaries2[1], "and")
     makequery(exchquaries2[2], "or")
+    print("=============================================")
+    print('Executed: %d s.' % int(time.clock() - start))
