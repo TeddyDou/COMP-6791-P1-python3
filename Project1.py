@@ -8,6 +8,7 @@ givenquaries = ["Jimmy Carter", "Green Party", "Innovations in telecommunication
 myquaries = ["Ted", "Potomac customers", "concession obstructing"]
 exchquaries1 = ["Realtors", "Chinese Trade Report", "Agriculture Citicorp Germany"]
 exchquaries2 = ["able", "able interesting", "able interesting"]
+labquaries = ["Reagan", "Brown-Forman Inc", "Hyundai Motors"]
 
 
 # logic para should be 'and' or 'or', if the keyword is single word, logic can be any word
@@ -97,3 +98,9 @@ if __name__ == "__main__":
     makequery(exchquaries2[0], "and")
     makequery(exchquaries2[1], "and")
     makequery(exchquaries2[2], "or")
+    print("=============================================")
+    makequery(labquaries[0], "N/A")
+    makequery(labquaries[1], "and")
+    makequery(labquaries[2], "or")
+    print("=============================================")
+    
