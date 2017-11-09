@@ -5,33 +5,33 @@ import TokenNormalizer
 import time
 import math
 
-#All the queries
+# All the queries
 query1 = "Democrats' welfare and healthcare reform policies"
 query2 = "Drug company bankruptcies"
 query3 = "George Bush"
 
 
-# logic para should be 'and' or 'or', if the keyword is single word, logic can be any word
 def makequery(keywords):
-    result = []
+    """The function to make queries, take the query as input and return the ranked results"""
+
     nor_keylist = TokenNormalizer.generate_terms(keywords)
     with open('stemming inverted index/FinalSpimi.txt', 'rb') as fp:
+        # Open the spimi file and read in term list, dictionary and doc lengths
         termlist = pickle.load(fp)
         termdict = pickle.load(fp)
         doclength = pickle.load(fp)
         fp.close
 
     if len(nor_keylist) == 0:
-        print ('Invalid input keywords, please try again')
+        print('Invalid input keywords, please try again')
         return
-        # print ('The keywords you queried is not in the dictionary.')
-        # return
     else:
+        # Get the raw results and union them together
         postings = []
         for keyword in nor_keylist:
             postings.append([t[0] for t in termdict[keyword]])
         if len(postings) == 0:
-            print ('The keywords you queried is not in the dictionary.')
+            print('The keywords you queried is not in the dictionary.')
             return
         else:
             result = union(postings)
@@ -41,6 +41,7 @@ def makequery(keywords):
         for number in doclength:
             total_len += number
         len_ave = round(total_len / len(doclength))
+        # Rank and return the result refer to tf-idf formula
         ranked_result = rank(result, nor_keylist, termlist, termdict, doclength, len_ave)
         print (keywords)
         print (ranked_result)
@@ -50,7 +51,12 @@ def makequery(keywords):
 
 
 def rank(input, query, termlist, termdict, doclength, len_ave):
-    N = 21578
+    """The function to rank the result using tf-idf formula, the parameter k and b should satisfy:
+    k > 0 & 0 < b <1
+    and in this case I set k = 1.6 and b = 0.75
+    """
+
+    n = 21578
     k = 1.6
     b = 0.75
     input_weight = []
@@ -65,12 +71,11 @@ def rank(input, query, termlist, termdict, doclength, len_ave):
                     if element[0] == doc_id:
                         tf_t_d = len(element[1])
                 d_ft = len(postings)
-                idf = math.log(N/d_ft)
-                tf = ((k+1)*tf_t_d)/(k*((1-b)+ (b*(doclength[doc_id-1]/len_ave)))+tf_t_d)
+                idf = math.log(n/d_ft)
+                tf = ((k+1)*tf_t_d)/(k*((1-b) + (b*(doclength[doc_id-1]/len_ave)))+tf_t_d)
                 tf_idf = idf * tf
             score += tf_idf
         input_weight.append([doc_id, score])
-    # print(input_weight)
     output = sorted(input_weight, key= lambda x:x[1], reverse=True)
     output = [x[0] for x in output]
     return output
@@ -108,6 +113,7 @@ def intersection(list1, list2):
 
 
 if __name__ == "__main__":
+    """The main function to execute making query"""
 
     start = time.clock()
     print("=============================================")

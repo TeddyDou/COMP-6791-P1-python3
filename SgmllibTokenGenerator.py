@@ -1,4 +1,4 @@
-'''Parse the raw data file and generate terms list files using Sgmllib module'''
+"""Parse the raw data file and generate terms list files using Sgmllib module"""
 
 import sgmllib
 import os
@@ -14,6 +14,7 @@ import pickle
 # newdir = "30 stopwords terms"
 # newdir = "150 stopwords terms"
 newdir = "stemming terms"
+
 
 class SgmParser(sgmllib.SGMLParser):
     """A class to parse text from Reuters SGML files."""
@@ -169,6 +170,7 @@ def begin_parse():
             parser.parse(s)
             ft.close()
             print("File number " + doc + " is processed")
+
 
 if __name__ == "__main__":
     start = time.clock()

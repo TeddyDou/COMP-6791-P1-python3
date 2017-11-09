@@ -1,4 +1,6 @@
-'''This file is to generate inverted index using spimi according to terms list files'''
+"""This file is to generate inverted index using spimi according to terms list files,
+it records the positional index as well as the length of each document in the collection.
+"""
 
 import sys
 import os
@@ -24,7 +26,9 @@ blockSizeLimit = 512
 termfiledir = "stemming terms"
 targetdir = "stemming inverted index"
 
+
 def spimi_invert():
+    """The spimi algorithm and it records the inverted index positions and doc lengths"""
     spimiFileNumber = 0
     DocID = 0
     endInput = False
@@ -66,40 +70,6 @@ def spimi_invert():
     spimi_file.close()
 
 
-# def merge_spimi_file():
-#     rootdir = targetdir
-#     terms = []
-#     dictionaries = []
-#
-#     for root, dirs, files in os.walk(rootdir):
-#         if len(files) > 1:
-#             for doc in os.listdir(rootdir):
-#                 if os.path.splitext(doc)[1] == '.txt':
-#                     with open(rootdir + '/' + doc, 'rb') as fp:
-#                         terms.append(pickle.load(fp))
-#                         dictionaries.append(pickle.load(fp))
-#                     fp.close
-#
-#             for index, term_list in enumerate(terms[1:]):
-#                 print ('finished processing file: ' + str(index + 1))
-#                 for term in term_list:
-#                     if term in terms[0]:
-#                         postings1 = dictionaries[0][term]
-#                         postings2 = dictionaries[index + 1][term]
-#                         new_postings = postings1 + postings2
-#                         dictionaries[0][term] = new_postings
-#                     else:
-#                         terms[0].append(term)
-#                         dictionaries[0][term] = dictionaries[index + 1][term]
-#
-#             sorted_terms = sort_terms(dictionaries[0])
-#             fp = open(rootdir + '/FinalSpimi.txt', 'wb')
-#             write_to_disk(sorted_terms, dictionaries[0], fp)
-#             fp.close()
-#         else:
-#             print ('Only 1 spimi file, no need to merge, please refer to:' + root + files)
-
-
 def add_to_dictionary(dictionary, term):
     dictionary[term] = []
     return dictionary[term]
@@ -139,7 +109,6 @@ def begin_spimi():
     if not os.path.isdir(targetdir):
         os.mkdir(targetdir)
     spimi_invert()
-    # merge_spimi_file()
 
 
 def create_readable_spimi_dictionary():
