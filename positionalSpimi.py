@@ -7,22 +7,7 @@ import os
 import pickle
 import time
 
-memorySizeLimit = 0.5 * 1024 * 1024
-blockSizeLimit = 512
-# termfiledir = "Terms file by Sgmllib"
-# targetdir = "inverted index 1"
-# termfiledir = "Terms file by BS4"
-# targetdir = "inverted index"
-# termfiledir = "unfiltered terms"
-# targetdir = "unfiltered inverted index"
-# termfiledir = "no numbers terms"
-# targetdir = "no numbers inverted index"
-# termfiledir = "case folding terms"
-# targetdir = "case folding inverted index"
-# termfiledir = "30 stopwords terms"
-# targetdir = "30 stopwords inverted index"
-# termfiledir = "150 stopwords terms"
-# targetdir = "150 stopwords inverted index"
+
 termfiledir = "stemming terms"
 targetdir = "stemming inverted index"
 

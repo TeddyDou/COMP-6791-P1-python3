@@ -7,8 +7,17 @@ import math
 
 # All the queries
 query1 = "Democrats' welfare and healthcare reform policies"
+query1_1 = "Democratic party welfare and healthcare reform policies"
+query1_2 = "Democrats' new reform policies"
 query2 = "Drug company bankruptcies"
+query2_1 = "Drug company broke"
+query2_2 = "medical company bankruptcies"
 query3 = "George Bush"
+query3_1 = "president George Bush"
+query3_2 = "George Bush junior"
+query4 = "Chinese musician"
+query4_1 = "Chinese musical people"
+query4_2 = "Chinese music player"
 
 
 def makequery(keywords):
@@ -29,7 +38,8 @@ def makequery(keywords):
         # Get the raw results and union them together
         postings = []
         for keyword in nor_keylist:
-            postings.append([t[0] for t in termdict[keyword]])
+            if keyword in termlist:
+                postings.append([t[0] for t in termdict[keyword]])
         if len(postings) == 0:
             print('The keywords you queried is not in the dictionary.')
             return
@@ -117,10 +127,20 @@ if __name__ == "__main__":
 
     start = time.clock()
     print("=============================================")
-    makequery(query1)
-    print("=============================================")
-    makequery(query2)
-    print("=============================================")
-    makequery(query3)
+    # makequery(query1)
+    # makequery(query1_1)
+    # makequery(query1_2)
+    # print("=============================================")
+    # makequery(query2)
+    # makequery(query2_1)
+    # makequery(query2_2)
+    # print("=============================================")
+    # makequery(query3)
+    # makequery(query3_1)
+    # makequery(query3_2)
+    # print("=============================================")
+    makequery(query4)
+    makequery(query4_1)
+    makequery(query4_2)
     print("=============================================")
     print('Executed: %d s.' % int(time.clock() - start))
